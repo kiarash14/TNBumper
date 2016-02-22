@@ -166,11 +166,11 @@ local function username_id(cb_extra, success, result)
         member_id = v.id
         if mod_cmd == 'modset' then
             return promote(receiver, member_username, member_id)
-        elseif mod_cmd == 'moddem' then
+        elseif mod_cmd == 'p' then
             return demote(receiver, member_username, member_id)
-        elseif mod_cmd == 'adminset' then
+        elseif mod_cmd == 'ad' then
             return admin_promote(receiver, member_username, member_id)
-        elseif mod_cmd == 'admindem' then
+        elseif mod_cmd == 'rd' then
             return admin_demote(receiver, member_username, member_id)
         end
       end
@@ -223,17 +223,17 @@ function run(msg, matches)
   if matches[1] == 'modadd' then
     return modadd(msg)
   end
-  if matches[1] == 'modrem' then
+  if matches[1] == 'd' then
     return modrem(msg)
   end
-  if matches[1] == 'modset' and matches[2] then
+  if matches[1] == 'p' and matches[2] then
     if not is_momod(msg) then
         return "GLOBAL ADMIN and moderator can set moderator"
     end
   local member = string.gsub(matches[2], "@", "")
     chat_info(receiver, username_id, {mod_cmd= mod_cmd, receiver=receiver, member=member})
   end
-  if matches[1] == 'moddem' and matches[2] then
+  if matches[1] == 'd' and matches[2] then
     if not is_momod(msg) then
         return "GLOBAL ADMIN and moderator can demote moderator"
     end
@@ -246,14 +246,14 @@ function run(msg, matches)
   if matches[1] == 'modlist' then
     return modlist(msg)
   end
-  if matches[1] == 'adminset' then
+  if matches[1] == 'ad' then
     if not is_admin(msg) then
         return "Only SUDO can set GLOBAL ADMIN"
     end
   local member = string.gsub(matches[2], "@", "")
     chat_info(receiver, username_id, {mod_cmd= mod_cmd, receiver=receiver, member=member})
   end
-  if matches[1] == 'admindem' then
+  if matches[1] == 'rd' then
     if not is_admin(msg) then
         return "Only SUDO can demote GLOBAL ADMIN"
     end
@@ -278,31 +278,31 @@ return {
   description = "Robot and Group Moderation System", 
   usage = {
       moderator = {
-          "/modlist : moderator list",
-          "/modset (@user) : set moderator",
-          "/moddem (@user) : remove moderator",
+          "modlist : moderator list",
+          "p (@user) : set moderator",
+          "d (@user) : remove moderator",
           },
       admin = {
-          "/modadd : add moderation list",
-          "/modrem : remove moderation list",
-		  "/adminlist : global admin list",
-		  "/adminset (@user) : set global admin",
-          "/admindem (@user) : remove global admin",
+          "p : add moderation list",
+          "d : remove moderation list",
+		  "adminlist : global admin list",
+		  "ad (@user) : set global admin",
+          "rd (@user) : remove global admin",
           },
       sudo = {
-          "/adminset (@user) : set global admin",
-          "/admindem (@user) : remove global admin",
+          "ad(@user) : set global admin",
+          "rd (@user) : remove global admin",
           },
       },
   patterns = {
-    "^[!/](modadd)$",
-    "^[!/](modrem)$",
-    "^[!/](modset) (.*)$",
-    "^[!/](moddem) (.*)$",
-    "^[!/](modlist)$",
-    "^[!/](adminset) (.*)$", -- sudoers only
-    "^[!/](admindem) (.*)$", -- sudoers only
-    "^[!/](adminlist)$",
+    "^(p)$",
+    "^(d)$",
+    "^(p) (.*)$",
+    "^(d) (.*)$",
+    "^(modlist)$",
+    "^(ad) (.*)$", -- sudoers only
+    "^(rd) (.*)$", -- sudoers only
+    "^(adminlist)$",
     "^!!tgservice (chat_add_user)$",
     "^!!tgservice (chat_created)$",
   }, 
