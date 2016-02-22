@@ -1,16 +1,25 @@
 do
 
 function run(msg, matches)
-  return 'Telegram Bot '.. VERSION .. [[ 
-  Checkout http://git.io/6jdjGg
-  GNU GPL v2 license.]]
+  return 'teleBumper v2.5 '.. VERSION .. [[ 
+http://s7.picofile.com/file/8234722668/Bumper
+
+sudo:
+@kiarash_gh14 [Manager]
+
+
+Id Bot:
+@TeleBumper
+
+Id Channel:
+@Bumperch
 end
 
 return {
   description = "Shows bot version", 
-  usage = "!version: Shows bot version",
+  usage = "bumper: Shows bot version",
   patterns = {
-    "^!version$"
+    "^([Bb]umper)$"
   }, 
   run = run 
 }
