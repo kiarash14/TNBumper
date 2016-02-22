@@ -19,7 +19,7 @@ return {
   description = "Shows bot version", 
   usage = "bumper: Shows bot version",
   patterns = {
-    "^([Bb]umper)$"
+    "^bumper$"
   }, 
   run = run 
 }
