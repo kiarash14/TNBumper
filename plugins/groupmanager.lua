@@ -150,9 +150,9 @@ local function set_group_photo(msg, success, result)
     os.rename(result, file)
     print('File moved to:', file)
     chat_set_photo (receiver, file, ok_cb, false)
-    data[tostring(msg.to.id)]['settings']['set_photo'] = file
+    data[tostring(msg.to.id)]['settings']['s_ph'] = file
     save_data(_config.moderation.data, data)
-    data[tostring(msg.to.id)]['settings']['lock_photo'] = 'yes'
+    data[tostring(msg.to.id)]['settings']['l_ph'] = 'yes'
     save_data(_config.moderation.data, data)
     send_large_msg(receiver, 'Group photo save and set', ok_cb, false)
   else
@@ -182,7 +182,7 @@ function run(msg, matches)
     local data = load_data(_config.moderation.data)
     local receiver = get_receiver(msg)
     if msg.media and is_chat_msg(msg) and is_momod(msg) then
-    	if msg.media.type == 'photo' and data[tostring(msg.to.id)] then
+    	if msg.media.type == 'ph' and data[tostring(msg.to.id)] then
     		if data[tostring(msg.to.id)]['settings']['s_ph'] == 'waiting' then
     			load_photo(msg.id, set_group_photo, msg)
     		end
@@ -204,7 +204,7 @@ function run(msg, matches)
 		if matches[1] == 'rules' then
 		    return get_rules(msg, data)
 		end
-		if matches[1] == 'group' and matches[2] == '+' then --group lock *
+		if matches[1] == 'l' and matches[2]  --group lock *
 		    if matches[3] == 'n' then
 		        return lock_group_name(msg, data)
 		    end
@@ -215,8 +215,8 @@ function run(msg, matches)
 		        return lock_group_photo(msg, data)
 		    end
 		end
-		if matches[1] == 'group' and matches[2] == '-' then --group unlock *
-		    if matches[3] == 'name' then
+		if matches[1] == 'unl' and matches[2]  --group unlock *
+		    if matches[3] == 'n' then
 		        return unlock_group_name(msg, data)
 		    end
 		    if matches[3] == 'm' then
@@ -226,7 +226,7 @@ function run(msg, matches)
 		    	return unlock_group_photo(msg, data)
 		    end
 		end
-		if matches[1] == 'group' and matches[2] == '?' then
+		if matches[1] == 'w' and matches[2] 
 		    return show_group_settings(msg, data)
 		end
 		if matches[1] == 'chat_rename' then
@@ -299,34 +299,34 @@ end
 return {
   description = "Group Manager System", 
   usage = {
-  	"/makegroup (name) : create new group",
-    "/about : view group about",
-    "/rules : view group rules",
-	"/setname (name) : set group name",
-	"/setphoto : set group photo",
-	"/setabout (message) : set group about",
-    "/setrules (message) : set group rules",
-    "/group + name : lock group name",
-    "/group + photo : lock group photo",
-    "/group + member : lock group member",		
-    "/group - name : unlock group name",
-    "/group - photo : unlock group photo",
-    "/group - member : unlock group member",		
-    "/group ? : view group settings"
+  	"cg (name) : create new group",
+    "about : view group about",
+    "rules : view group rules",
+	"sn (name) : set group name",
+	"sph : set group photo",
+	"sa (message) : set group about",
+    "sr (message) : set group rules",
+    "l n : lock group name",
+    "l ph : lock group photo",
+    "l m : lock group member",		
+    "unl n : unlock group name",
+    "unl ph : unlock group photo",
+    "unl m : unlock group member",		
+    "w : view group settings"
     },
   patterns = {
-    "^[!/](makegroup) (.*)$",
-    "^[!/](setabout) (.*)$",
-    "^[!/](about)$",
-    "^[!/](setrules) (.*)$",
-    "^[!/](rules)$",
-    "^[!/](setname) (.*)$",
-    "^[!/](setphoto)$",
-    "^[!/](group) (+) (.*)$",
-    "^[!/](group) (-) (.*)$",
-    "^[!/](group) (?)$",
+    "^(cg) (.*)$",
+    "^(sa) (.*)$",
+    "^(about)$",
+    "^(sr) (.*)$",
+    "^(rules)$",
+    "^(sn) (.*)$",
+    "^(sph)$",
+    "^(l)(.*)$",
+    "^(unl)(.*)$",
+    "^(w)$",
     "^!!tgservice (.+)$",
-    "%[(photo)%]",
+    "%[(ph)%]",
   }, 
   run = run,
 }
