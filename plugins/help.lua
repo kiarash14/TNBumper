@@ -107,9 +107,9 @@ local function telegram_help()
     end
   end
   text = text..'______________________________'
-  text = text..'\n'..'You can use < helps > for view all items info or can use < help (name) > for view a item info'
-  text = text..'\n'..'For see about Bumper Team,
-  text = text..'\n'..'Sudo: @kiarash_gh14 Channel: @Bumperch'
+  text = text..'\n'..'You can use < /helps > for view all items info or can use < /help (name) > for view a item info'
+  text = text..'\n'..'For see about Bumper Bot Team, send < /ver >'
+  text = text..'\n'..'Sudo: @kiarash_gh14 Channel: @BumperCh'
   return text
 end
  
@@ -137,9 +137,9 @@ local function run(msg, matches)
   else
       requester = "user"
   end
-  if matches[1] == "help" then
+  if matches[1] == "[!/]help" then
     return telegram_help()
-  elseif matches[1] == "helps" then
+  elseif matches[1] == "[!/]helps" then
     return help_all(requester)
   else
     local text = ""
@@ -158,14 +158,14 @@ end
 return {
   description = "Help For Command and Tools",
   usage = {
-    "help : view items list",
-    "helps : view all commands and info",
-    "help (name) : view a item commands and info",
+    "/help : view items list",
+    "/helps : view all commands and info",
+    "/help (name) : view a item commands and info",
   },
   patterns = {
-    "^help$",
-    "^helps",
-    "^help (.+)"
+    "^[!/]help$",
+    "^[!/]helps",
+    "^[!/]help (.+)"
   },
   run = run
 }
